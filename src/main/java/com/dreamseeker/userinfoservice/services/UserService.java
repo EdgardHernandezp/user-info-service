@@ -1,6 +1,7 @@
 package com.dreamseeker.userinfoservice.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.dreamseeker.userinfoservice.domains.Recommendation;
 import com.dreamseeker.userinfoservice.domains.UserInfo;
@@ -14,6 +15,6 @@ public class UserService {
 
     public Recommendation fetchUser() {
         UserInfo userInfo = new UserInfo("1", List.of("Adventure", "Stealth"));
-        return recommendationService.fetchRecommendations(userInfo);
+        return recommendationService.fetchRecommendations(userInfo, Optional.empty());
     }
 }

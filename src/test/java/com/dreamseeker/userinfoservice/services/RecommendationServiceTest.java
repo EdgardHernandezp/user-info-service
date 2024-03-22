@@ -1,6 +1,7 @@
 package com.dreamseeker.userinfoservice.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.dreamseeker.userinfoservice.domains.Recommendation;
@@ -27,9 +28,19 @@ class RecommendationServiceTest {
     void fetchRecommendations() {
         RecommendationService recommendationService = new RecommendationService();
         UserInfo userInfo = new UserInfo(UUID.randomUUID().toString(), List.of("Adventure", "Stealth", "Platformer"));
-        Recommendation recommendation = recommendationService.fetchRecommendations(userInfo);
+        Recommendation recommendation = recommendationService.fetchRecommendations(userInfo, Optional.empty());
 
         assertThat(recommendation).isNotNull();
         assertThat(recommendation.videogames()).isNotNull().hasSizeGreaterThan(0);
+    }
+
+    @Test
+    void fetchRecommendationsWithExclusions() {
+        RecommendationService recommendationService = new RecommendationService();
+        UserInfo userInfo = new UserInfo(UUID.randomUUID().toString(), List.of("Adventure", "Stealth", "Platformer"));
+        Recommendation recommendation = recommendationService.fetchRecommendations(userInfo, Optional.of("Platformer"));
+
+        assertThat(recommendation).isNotNull();
+        assertThat(recommendation.videogames()).isNotNull().hasSize(1);
     }
 }
